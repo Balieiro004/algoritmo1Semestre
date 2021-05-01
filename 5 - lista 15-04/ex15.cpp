@@ -1,89 +1,106 @@
-#include<stdio.h>
+#include <stdio.h>
 
 int main(){
+    float precoUnit, custoEstoq=0, imposto=0, totImposto=0, precoFinal=0, medAdi=0, maiorPreco=0, menorPreco=0;
+    char refri, cat;
+    int i, prod=12, classBa=0, classNo=0, classCa=0;
 
-    float precoUnit[12], custoEst[12], imposto[12], precoFinal[12], custoEstTot, impostoTot[12], medValAdi, totImposto, maiorPreco, menorPreco;
-    char refrig[12], categ[12], clas[6];
-    int prodQnt, i, barato, normal, caro;
-
-    menorPreco = 10000000000;
-    for(i = 1, prodQnt = 2; i <= prodQnt; i++){
+    for(i=1;i<=prod;i++){
         printf("Produto %d\n", i);
-        printf("Preco Unitario: R$ ");
-        scanf("%f%*c", &precoUnit[i]);
-        printf("Precisa de Refigeracao: [S/N]: ");
-        scanf("%c%*c", &refrig[i]);
+        printf("Preco Unitario: ");
+        scanf("%f%*c", &precoUnit);
+        printf("Precisa de Refrigeracao [S/N]: ");
+        scanf("%c%*c", &refri);
+        while((refri != 'S' && refri != 's') && (refri != 'n' && refri != 'N') ){
+            printf("Precisa de Refrigeracao [S/N]: ");
+            scanf("%c%*c", &refri);
+        }
         printf("Categoria:\nA - Alimentacao\nL - Limpeza\nV - Vestuario: ");
-        scanf("%c%*c", &categ[i]);
-        putchar('\n');
+        scanf("%c%*c", &cat);
+        while((cat != 'A' && cat!= 'a') && (cat != 'L' && cat != 'l') && (cat != 'V' && cat != 'v')){
+            printf("Categoria:\nA - Alimentacao\nL - Limpeza\nV - Vestuario: ");
+            scanf("%c%*c", &cat);
+        }
 
-           if(precoUnit[i] < 20 && (categ[i] == 'A' || categ[i] == 'a')){
-                custoEst[i] = 2;
-                imposto[i] = precoUnit[i] * 0.04;
-           }else
-                if(precoUnit[i] < 20 && (categ[i] == 'l' || categ[i] == 'L')){
-                    custoEst[i] = 3;
-                    imposto[i] = precoUnit[i] * 0.02;
+        if(precoUnit < 20 && (cat == 'A' || cat == 'a')){
+            custoEstoq += 2;
+        }else
+            if(precoUnit < 20 && (cat == 'L' || cat == 'l')){
+                custoEstoq += 3;
+            }else
+                if(precoUnit < 20 && (cat == 'V' || cat == 'v')){
+                    custoEstoq += 4;
                 }else
-                    if(precoUnit[i] < 20 && (categ[i] == 'V' || categ[i] == 'v')){
-                        custoEst[i] = 4;
-                        imposto[i] = precoUnit[i] * 0.02;
+                    if((precoUnit >= 20 && precoUnit <= 50) && (refri == 'S' || refri == 's')){
+                        custoEstoq += 6;
                     }else
-                        if((precoUnit[i] >= 20 && precoUnit[i] <= 50) && (refrig[i] == 'S' || refrig[i] == 's')){
-                            custoEst[i] = 6;
-                            imposto[i] = precoUnit[i] * 0.04;
+                        if((precoUnit >= 20 && precoUnit <= 50) && (refri == 'N' || refri == 'n')){
+                            custoEstoq += 0;
                         }else
-                            if((precoUnit[i] >= 20 && precoUnit[i] <= 50) && (refrig[i] == 'N' || refrig[i] == 'n')){
-                               custoEst[i] = 0;
-                               imposto[i] = precoUnit[i] * 0.02;
+                            if(precoUnit > 50 && (refri == 'S' || refri == 's') && (cat == 'A' || cat == 'a')){
+                                custoEstoq += 5;
                             }else
-                               if(precoUnit[i] > 50 && (refrig[i] == 'S' || refrig[i] == 's') && (categ[i] == 'A' || categ[i] == 'a')){
-                                    custoEst[i] = 5;
-                                    imposto[i] = precoUnit[i] * 0.04;
+                                if(precoUnit > 50 && (refri == 'S' || refri == 's') && (cat == 'L' || cat == 'l')){
+                                    custoEstoq += 2;
                                 }else
-                                    if(precoUnit[i] > 50 && (refrig[i] == 'S' || refrig[i] == 's') && (categ[i] == 'L' || categ[i] == 'l')){
-                                       custoEst[i] = 2;
-                                       imposto[i] = precoUnit[i] * 0.04;
+                                    if(precoUnit > 50 && (refri == 'S' || refri == 's') && (cat == 'V' || cat == 'v')){
+                                        custoEstoq += 4;
                                     }else
-                                       if(precoUnit[i] > 50 && (refrig[i] == 'S' || refrig[i] == 's') && (categ[i] == 'V' || categ[i] == 'v')){
-                                            custoEst[i] = 4;
-                                            imposto[i] = precoUnit[i] * 0.04;
-                                       }else
-                                            if(precoUnit[i] > 50 && (refrig[i] == 'N' || refrig[i] == 'n') && (categ[i] == 'A' || categ[i] == 'a') || (categ[i] =='V' || categ[i] == 'v')){
-                                                custoEst[i] = 0;
-                                                imposto[i] = precoUnit[i] * 0.02;
-                                            }else
-                                                custoEst[i] = 1;
-                                                imposto[i] = precoUnit[i] * 0.02;
+                                        if(precoUnit > 50 && (refri == 'N' || refri == 'n') && (cat == 'A' || cat == 'a') || (cat == 'V' || cat == 'v')){
+                                            custoEstoq += 0;
+                                        }else{
+                                            custoEstoq += 1;
+                                        }
 
-
-        custoEstTot = custoEstTot + custoEst[i];
-        precoFinal[i] = precoUnit[i] + custoEst[i] + imposto[i];
-        totImposto = imposto[i] + totImposto;
-        medValAdi = custoEstTot + totImposto;
-
-        if(maiorPreco < precoFinal[i]){
-            maiorPreco = precoFinal[i];
-        }
-        if(menorPreco > precoFinal[i]){
-            menorPreco = precoFinal[i];
+        if((cat == 'A' || cat == 'a') || (refri == 'S' || refri == 's')) {
+            imposto = precoUnit * 4 / 100;
+        }else{
+            imposto = precoUnit * 2 / 100;
         }
 
+        precoFinal = precoUnit + custoEstoq + imposto;
+        totImposto += imposto;
+        printf("*******************************\n");
+        printf("\tDados Produto %d\n",i);
+        printf("\tImposto %.2f\n", imposto);
+        printf("\tPreco final: R$ %.2f\n", precoFinal);
+        if(precoFinal < 20){
+            printf("\tProduto Barato.\n");
+            classBa++;
+        }else
+            if(precoFinal >20 && precoFinal < 100){
+                printf("\tProduto Normal\n");
+                classNo++;
+            }else{
+                printf("\tProduto Caro\n");
+                classCa++;
+                }
+        printf("\n");
+        printf("*******************************\n");
+        medAdi = (custoEstoq + totImposto) / prod;
+
+        if(i == 1){
+            maiorPreco = precoFinal;
+            menorPreco = precoFinal;
+        }else
+            if(precoFinal > maiorPreco){
+                maiorPreco = precoFinal;
+            }
+            if(precoFinal < menorPreco){
+                menorPreco = precoFinal;
+            }
+
     }
-
-    printf("**************************************************************************************\n");
-    printf("Produto/Preco.Un./Imposto/Custo Estoque/Refrigeracao/Categoria/PreFinal\n");
-    for(i = 1, prodQnt = 2; i <= prodQnt; i++){
-    printf("%d \t%.2f \t%.2f \t\t%.2f \t%c \t\t%c \t%.2f\n",i,precoUnit[i], imposto[i], custoEst[i], refrig[i], categ[i], precoFinal[i]);
-    }
-    printf("**************************************************************************************\n");
-
-    printf("Custo Total Estoque: R$ %.2f\n", custoEstTot);
-    printf("Total de Imposto: R$ %.2f\n", totImposto);
-    printf("Valores Adicionais: R$ %.2f\n", medValAdi);
-    printf("Maior preco: R$ %.2f\n", maiorPreco);
-    printf("Menor preco: R$ %.2f\n", menorPreco);
-
+    printf("**************************************************\n");
+    printf("Custo Total do Estoque: \tR$%.2f\n", custoEstoq);
+    printf("Total de imposto: \t\tR$ %.2f\n", totImposto);
+    printf("Media Valores Adicionais \tR$ %.2f\n", medAdi);
+    printf("Maior Preco: \t\t\tR$ %.2f\n", maiorPreco);
+    printf("Menor Preco: \t\t\tR$ %.2f\n", menorPreco);
+    printf("Quantidade Produtos Barato: \t%d\n", classBa);
+    printf("Quantidade Produtos Normal: \t%d\n", classNo);
+    printf("Quantidade Produtos Caro: \t%d\n", classCa);
+    printf("**************************************************\n");
     getchar();
     return 0;
 }
