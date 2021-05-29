@@ -1,55 +1,75 @@
 #include<stdio.h>
-struct acidentes{
-    char estado[20];
-    int nVeiculos, nAcidTrans;
+
+float percentual(float qntVeic, int tot);
+float mediaAcid(float qntAci, int tot);
+void astecisco();
+
+struct estado{
+    char nome[20];
+    int numVeicul, acidenteTrans;
+
 };
 
-
 int main(){
-    acidentes transitos[15];
-    int i, maiorInd, menorInd, totVei=0, totAci=0;
-    float mediaAci, veiculoPer;
+    estado dados[15];
+    int maior, menor, i, totVei=0, cont=0;
+    float percentualFin=0, mediaAcidentes;
 
-    for(i=0;i<2;i++){
-        printf("Nome do estado: ");
-        fgets(transitos[i].estado,20,stdin);
-        printf("N. de veiculos que circulam no estado: ");
-        scanf("%d%*c", &transitos[i].nVeiculos);
-        printf("N. de Acidente de Transito: ");
-        scanf("%d%*c", &transitos[i].nAcidTrans);
-        mediaAci = transitos[i].nVeiculos;
-        totVei += transitos[i].nVeiculos;
-        totAci += transitos[i].nAcidTrans;
+    for(i=0;i<15;i++){
+        printf("Estado: ");
+        fgets(dados[i].nome,20,stdin);
+        printf("Qnt de veiculos que circulam: ");
+        scanf("%d%*c", &dados[i].numVeicul);
+        totVei += dados[i].numVeicul;
+        printf("Qnt de acidentes: ");
+        scanf("%d%*c", &dados[i].acidenteTrans);
+        cont++;
         putchar('\n');
-        if(i==0){
-            maiorInd = transitos[i].nAcidTrans;
-            menorInd = transitos[i].nAcidTrans;
+    }
+    astecisco();
+    for(i=0;i<15;i++){
+        printf("Estado: \t\t\t%s", dados[i].nome);
+        printf("Qnt de veiculos que circulam: \t%d", dados[i].numVeicul);
+        percentualFin = percentual(dados[i].numVeicul, totVei);
+        printf("\nPercentual de veiculos \t\t%.2f%%", percentualFin);
+        printf("\nQnt de acidentes: \t\t%d", dados[i].acidenteTrans);
+        mediaAcidentes = mediaAcid(dados[i].acidenteTrans, cont);
+        printf("\nMedia de acidentes \t\t%.1f", mediaAcidentes);
+        if(i == 0){
+            maior = dados[i].acidenteTrans;
+            menor = dados[i].acidenteTrans;
         }else{
-            if(transitos[i].nAcidTrans > maiorInd){
-                maiorInd = transitos[i].nAcidTrans;
+            if(dados[i].acidenteTrans > maior){
+                maior = dados[i].acidenteTrans;
             }
-            if(transitos[i].nAcidTrans < menorInd){
-                menorInd = transitos[i].nAcidTrans;
+            if(dados[i].acidenteTrans < menor){
+                menor = dados[i].acidenteTrans;
             }
-        }
+         }
+         astecisco();
     }
-    for(i=0;i<2;i++){
-        printf("\nTot veiculos %d", totVei);
-        printf("\nTot Acidente %d", totAci);
-        printf("\nNome do Estado: \t\t%s", transitos[i].estado);
-        printf("N. de veiculos que circulam: \t%d", transitos[i].nVeiculos);
-        printf("\nN. de Acidente de Transito: \t%d", transitos[i].nAcidTrans);
-        veiculoPer = transitos[i].nVeiculos / totVei * 100;
-        printf("\nVeiculos por estado \t\t%.1f %%", veiculoPer);
-        mediaAci = transitos[i].nAcidTrans / totAci * 100;
-        printf("\nMedia de acidente no estado \t%.1f %%", mediaAci);
-        putchar('\n');
-    }
-    printf("\nMaior Indice de Acidentes: %d", maiorInd);
-    printf("\nMenor indice de Acidentes: %d", menorInd);
-    printf("\nTotal de veiculos: %d", totVei);
-    printf("\nTot Acidente %d", totAci);
+    astecisco();
+    printf("Total veiculos: \t\t%d", totVei);
+    printf("\nMaior indice de acidentes \t%d", maior);
+    printf("\nMenor indice de acidentes \t%d",menor);
+    astecisco();
     printf("\nTecle ENTER para finalizar");
-    getchar();
     return 0;
+}
+
+float percentual(float qntVeic, int tot){
+    return qntVeic / tot * 100;
+}
+
+float mediaAcid(float qntAci, int tot){
+    return qntAci / tot;
+}
+
+void astecisco(){
+    int i;
+    putchar('\n');
+    for(i=0;i<=46;i++){
+        printf("*");
+    }
+    putchar('\n');
 }
